@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Love</title>
+    <style>
+        /* Base styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Libre Baskerville', Georgia, serif;
+            background-color: #fff5f5;
+            color: #4a4a4a;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(249, 168, 212, 0.2);
+            text-align: center;
+        }
+        
+        h1 {
+            color: #e68fac;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+        
+        p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        /* Form styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #f9d5e5;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+            outline: none;
+        }
+        
+        input:focus {
+            border-color: #e68fac;
+        }
+        
+        button {
+            background-color: #e68fac;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 1rem;
+            margin-top: 10px;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+        
+        button:hover {
+            background-color: #d67a9d;
+            transform: translateY(-2px);
+        }
+        
+        /* Sections */
+        .section {
+            display: none;
+            animation: fadeIn 1s;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        /* Slideshow */
+        .slideshow {
+            position: relative;
+            height: 300px;
+            margin: 30px 0;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            object-fit: contain; /* ✅ agora sim */
+            border-radius: 15px;
+            background-color: #fff; /* opcional: evita fundo transparente */
+        }
+        
+        .slide.active {
+            opacity: 1;
+        }
+        
+        /* Message */
+        .love-message {
+            font-style: italic;
+            color: #d67a9d;
+            margin: 30px 0;
+            font-size: 1.2rem;
+            line-height: 1.8;
+        }
+        
+        .highlight {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #e68fac;
+            margin: 20px 0;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .heart {
+            position: fixed;
+            font-size: 20px;
+            color: #e68fac;
+            animation: float 6s ease-in-out infinite;
+            z-index: -1;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .slideshow {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background hearts -->
+    <div id="hearts-container"></div>
+    
+    <div class="container">
+        <!-- Question 1: Beauty Score -->
+        <section id="beautyQuestion" class="section active">
+            <h1>Oiii meu amorr!!</h1>
+            <p>Amor, pergunta. Que nota você da para sua beleza??? 🤔</p>
+            <div class="form-group">
+                <input type="text" id="beautyScore" placeholder="Enter a number">
+            </div>
+            <button id="submitBeauty">Enviar</button>
+        </section>
+        
+        <section id="beautyReaction" class="section">
+            <h1>Só isso?!</h1>
+            <p class="highlight">Nota certa: 1000000000000000000 😳</p>
+            <p>Agoraaaa simmm!</p>
+            <button id="continueToLove">Continuar</button>
+        </section>
+        
+        <!-- Question 2: Love Amount -->
+        <section id="loveQuestion" class="section">
+            <h1>Próxima pergunta 😳</h1>
+            <p>Quanto você acha que eu te amo? 🤔</p>
+            <div class="form-group">
+                <input type="text" id="loveAmount" placeholder="Your answer">
+            </div>
+            <button id="submitLove">Enviar</button>
+        </section>
+        
+        <section id="loveReaction" class="section">
+            <h1>Errado!!!</h1>
+            <p class="highlight">Eu amo você INIFINITAMENTE, mais que TUDO 🥺</p>
+            <button id="continueToName">Próximo</button>
+        </section>
+        
+        <!-- Question 3: Full Name (with attempts) -->
+        <section id="nameQuestion" class="section">
+            <h1>Ultima pergunta amor, é bem simples 😳</h1>
+            <p>Digite seu nome completo 🧐</p>
+            <div class="form-group">
+                <input type="text" id="fullName" placeholder="Your full name">
+            </div>
+            <p id="attemptMessage"></p>
+            <button id="submitName">Enviar</button>
+        </section>
+        
+        <!-- Final Section -->
+        <section id="finalSection" class="section">
+            <h1>Perfeito!!</h1>
+            <p>Seu nome deveria ser:</p>
+            <p id="correctedName" class="highlight"></p>
+            
+            <div class="love-message">
+                A distância pode nos separar fisicamente, mas nunca vai fazer eu desistir de você.
+                Cada dia longe de você parece imperfeito, mas cada momento em que penso em como vai ser estar com você, eu lembro que estou muito perto da perfeição.
+                Mal posso esperar pelo dia em que vamos estar juntos, meu amor 🥺 
+            </div>
+
+            <p class="highlight">Feliz 3 meses, amor!! 🥰</p>
+            <p>Alguns dos nossos momentos incríveis juntos nesse meio tempo:</p>
+
+            <div class="slideshow">
+                <img class="slide" src="/imgs/nos_juntos.jpeg" alt="Foto 1">
+                <img class="slide" src="/imgs/bebendo_vinho.jpeg" alt="Foto 2">
+                <img class="slide" src="/imgs/ela_sorrindo.jpeg" alt="Foto 3">
+                <img class="slide" src="/imgs/nos_juntos_anime.jpeg" alt="Foto 4">
+            </div>
+            <p id="photo-comment" class="highlight" style="margin-top: 15px;"></p>
+            
+            <p>Não importa o quão longe eu esteja de você, meu coração sempre vai estar contigo ❤️.</p>
+            <p>Eu te amo mais do que consigo dizer amor 🥺</p>
+        </section>
+
+    </div>
+
+    <script>
+        // Create floating hearts in the background
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts-container');
+            const heartSymbols = ['❤️', '💕', '💖', '💗', '💓'];
+            
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+                
+                // Random position
+                heart.style.left = `${Math.random() * 100}vw`;
+                heart.style.top = `${Math.random() * 100}vh`;
+                
+                // Random size
+                const size = Math.random() * 20 + 10;
+                heart.style.fontSize = `${size}px`;
+                
+                // Random animation duration
+                heart.style.animationDuration = `${Math.random() * 5 + 3}s`;
+                
+                // Random animation delay
+                heart.style.animationDelay = `${Math.random() * 5}s`;
+                
+                heartsContainer.appendChild(heart);
+            }
+        }
+        
+        // Show a section and hide all others
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show the requested section
+            document.getElementById(sectionId).classList.add('active');
+        }
+        
+        // Question 1: Beauty Score
+        document.getElementById('submitBeauty').addEventListener('click', function() {
+            const beautyScore = document.getElementById('beautyScore').value.trim();
+            
+            if (beautyScore) {
+                showSection('beautyReaction');
+            } else {
+                alert('Por favor digite um número');
+            }
+        });
+        
+        // Continue to Love Question
+        document.getElementById('continueToLove').addEventListener('click', function() {
+            showSection('loveQuestion');
+        });
+        
+        // Question 2: Love Amount
+        document.getElementById('submitLove').addEventListener('click', function() {
+            const loveAmount = document.getElementById('loveAmount').value.trim();
+            
+            if (loveAmount) {
+                showSection('loveReaction');
+            } else {
+                alert('Por favor digite sua resposta');
+            }
+        });
+        
+        // Continue to Name Question
+        document.getElementById('continueToName').addEventListener('click', function() {
+            showSection('nameQuestion');
+            // Reset attempt counter
+            nameAttempts = 0;
+            updateAttemptMessage();
+        });
+        
+        // Question 3: Full Name (with attempts)
+        let nameAttempts = 0;
+        const correctName = "Ingrid Luciana da Silva"; // Change this to the expected name
+        const attemptMessages = [
+            "Oops... Acho que você errou amor, tenta de novo 😳.",
+            "Ainda não esta certo amor, vamossss você consegueee!",
+            "Ultima tentativa! Confio em você... 🤨"
+        ];
+        
+        function updateAttemptMessage() {
+            if (nameAttempts > 0) {
+                document.getElementById('attemptMessage').textContent = attemptMessages[nameAttempts - 1];
+            } else {
+                document.getElementById('attemptMessage').textContent = "";
+            }
+        }
+        
+        document.getElementById('submitName').addEventListener('click', function() {
+            const fullName = document.getElementById('fullName').value.trim();
+            const enteredLower = fullName.toLowerCase();
+
+            const correctLower = `Ingrid Luciana da Silva Gonçalves`.toLowerCase();
+            
+            if (fullName) {
+                // Store the entered name
+                localStorage.setItem('enteredName', fullName);
+                
+                if (enteredLower === correctLower) {
+                    // Correct name entered
+                    proceedToFinal();
+                } else {
+                    if (nameAttempts < 3) {
+                    nameAttempts++;
+                    updateAttemptMessage();
+                } else {
+                    updateAttemptMessage(); // mostra a última mensagem (opcional)
+                    proceedToFinal(); // vai para a tela "Perfeito!" só após 3 erros
+                }
+                }
+            } else {
+                alert('Por favor digite seu nome');
+            }
+        });
+        
+        function proceedToFinal() {
+            const enteredName = localStorage.getItem('enteredName') || "Ingrid Luciana da Silva";
+            
+            // Get first name (assuming format is "First Last" or just "First")
+            const firstName = enteredName.split(' ')[0];
+            
+            // Boyfriend's last name (you can change this)
+            const boyfriendLastName = "Gonçalves";
+            
+            // Create the "corrected" name
+            const correctedName = `Ingrid Luciana da Silva ${boyfriendLastName}`;
+            
+            // Display the corrected name
+            document.getElementById('correctedName').textContent = correctedName;
+            
+            // Show the final section
+            showSection('finalSection');
+            
+            // Start the slideshow
+            startSlideshow();
+        }
+        
+        // Slideshow functionality
+        function startSlideshow() {
+            const comments = [
+                "Eu sei que é repetida, mas essa daqui tinha que estar 🥺",
+                "A gente bebendo vinho juntos 🥺",
+                "Essa eu sei que você vai me matar pq tirei em segredo 😳. Mas mostra a coisa mais linda do universo, seu sorriso lindo 🥺",
+                "A mesma que a primeira só que versão anime 😳"
+            ];
+
+            const slides = document.querySelectorAll('.slide');
+            const commentBox = document.getElementById('photo-comment');
+            let currentSlide = 0;
+            
+            // Show the first slide
+            slides[0].classList.add('active');
+            commentBox.textContent = comments[0];
+            
+            // Change slide every 4 seconds
+            setInterval(() => {
+                // Hide current slide
+                slides[currentSlide].classList.remove('active');
+                
+                // Move to next slide (or back to first)
+                currentSlide = (currentSlide + 1) % slides.length;
+                
+                // Show new current slide
+                slides[currentSlide].classList.add('active');
+                commentBox.textContent = comments[currentSlide];
+            }, 9000);
+        }
+        
+        // Initialize the page
+        window.addEventListener('DOMContentLoaded', function() {
+            createHearts();
+        });
+    </script>
+</body>
+</html>
